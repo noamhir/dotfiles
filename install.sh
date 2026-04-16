@@ -1,15 +1,10 @@
 #!/bin/bash
 
-# 1. Install Gemini CLI globally
-echo "Installing Gemini CLI..."
+# Install Gemini CLI (2026 Stable)
 npm install -g @google/gemini-cli
 
-# 2. Install Claude Code
-echo "Installing Claude Code..."
+# Install Claude Code (2026 Native Installer)
 curl -fsSL https://claude.ai/install.sh | bash
 
-# 3. Add aliases (Optional but helpful)
-# This ensures your shell always knows where to find the binaries
-echo 'export PATH="$PATH:$(npm config get prefix)/bin"' >> ~/.bashrc
-
-echo "AI Tools setup complete!"
+# Ensure the paths are refreshed for the current session
+export PATH="$PATH:$(npm config get prefix)/bin"
