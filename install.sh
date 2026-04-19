@@ -5,7 +5,12 @@ npm install -g @google/gemini-cli
 
 # Install Claude Code (2026 Native Installer)
 curl -fsSL https://claude.ai/install.sh | bash
-
+# Install GitHub Copilot CLI globally
+if command -v npm &> /dev/null; then
+    npm install -g @github/copilot
+else
+    echo "npm not found, skipping Copilot CLI installation."
+fi
 # Ensure the paths are refreshed for the current session
 export PATH="$PATH:$(npm config get prefix)/bin"
 echo "🚀 Gemini CLI and Claude code installed successfuly."
