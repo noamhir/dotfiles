@@ -20,4 +20,10 @@ make-portable() {
   fi
 
   echo "🚀 Ready! Use 'npm run build' and grab the file from the /dist folder."
+# Combine all 3 steps into one command: "save [message]"
+save() {
+  git add .
+  git commit -m "$1"
+  git push
+}
 }
