@@ -1,3 +1,12 @@
+save() {
+  if [ -z "$1" ]; then
+    echo "❌ Error: Please provide a commit message."
+    return 1
+  fi
+  git add .
+  git commit -m "$1"
+  git push
+}
 # Ensure the global npm paths are refreshed for the current session
 export PATH="$PATH:$(npm config get prefix)/bin"
 
@@ -21,9 +30,4 @@ make-portable() {
 
   echo "🚀 Ready! Use 'npm run build' and grab the file from the /dist folder."
 # Combine all 3 steps into one command: "save [message]"
-save() {
-  git add .
-  git commit -m "$1"
-  git push
-}
 }
