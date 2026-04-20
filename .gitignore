@@ -1,0 +1,14 @@
+# Codespaces and Local Environment
+.env
+.env.local
+node_modules/
+dist/
+
+# AI Tool Caches (OAuth tokens and chat histories)
+.claude/
+.gemini/
+.copilot/
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
