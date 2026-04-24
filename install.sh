@@ -19,14 +19,14 @@ yes | npm install -g @google/gemini-cli
 
 echo "📦 Installing Claude Code..."
 # We use 'yes' here because the Claude installer often asks for permission.
-yes | curl -fsSL https://claude.ai/install.sh | bash
+# yes | curl -fsSL https://claude.ai/install.sh | bash
 
 echo "📦 Installing Copilot CLI..."
-if command -v npm &> /dev/null; then
-    yes | npm install -g @github/copilot
-else
-    echo "⚠️ npm not found, skipping Copilot CLI installation."
-fi
+# if command -v npm &> /dev/null; then
+#     yes | npm install -g @github/copilot
+# else
+#    echo "⚠️ npm not found, skipping Copilot CLI installation."
+# fi
 
 # 5. MANUALLY LINK CONFIGS: Sometimes Codespaces skips the automatic linking.
 # This forces your .bashrc and gemini.md to be active.
