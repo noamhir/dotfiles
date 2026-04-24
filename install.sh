@@ -35,10 +35,12 @@ ln -sf "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
 ln -sf "$DOTFILES_DIR/gemini.md" "$HOME/gemini.md"
 #!/bin/bash
 
-# 1. Install the Cline Extension (using its official marketplace ID)
+#!/bin/bash
+
+# 1. Install the Cline Extension
 code --install-extension saoudrizwan.claude-dev
 
-# 2. Generate your strict coding rules template in the home directory
+# 2. Generate the strict rules template
 cat << 'EOF' > ~/.clinerules-template
 # CORE PERSONA
 Act as a senior, precise software engineer focused on stability.
@@ -52,10 +54,28 @@ Act as a senior, precise software engineer focused on stability.
 - Idea Placement: Fulfill the exact request to the letter first. You may offer creative ideas, alternatives, or enhancements ONLY at the very end of your response.
 EOF
 
-# 3. Auto-deploy into the active workspace
-# Codespaces automatically opens a terminal at the workspace root. 
-# This checks if a .clinerules file exists, and if not, copies the template over.
+# 3. Generate the ignore template to protect API quotas
+cat << 'EOF' > ~/.clineignore-template
+# Protect API Tokens by ignoring compiled output and heavy data
+node_modules/
+.git/
+dist/
+build/
+
+# STRICTLY ignore local JSON databases
+*.json.db
+/data/*.json
+
+# Ignore binary files and assets
+*.jpg
+*.png
+*.pdf
+EOF
+
+# 4. Auto-deploy into the active workspace
+# This checks if the files exist in the project root, and if not, copies the templates over.
 echo 'if [ ! -f .clinerules ]; then cp ~/.clinerules-template .clinerules; fi' >> ~/.bashrc
+echo 'if [ ! -f .clineignore ]; then cp ~/.clineignore-template .clineignore; fi' >> ~/.bashrc
 
 # 6. REFRESH PATH: Ensure the new tools are available in the current session.
 export PATH="$PATH:$(npm config get prefix)/bin"
