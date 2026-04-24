@@ -33,6 +33,29 @@ fi
 echo "🔗 Linking configuration files..."
 ln -sf "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
 ln -sf "$DOTFILES_DIR/gemini.md" "$HOME/gemini.md"
+#!/bin/bash
+
+# 1. Install the Cline Extension (using its official marketplace ID)
+code --install-extension saoudrizwan.claude-dev
+
+# 2. Generate your strict coding rules template in the home directory
+cat << 'EOF' > ~/.clinerules-template
+# CORE PERSONA
+Act as a senior, precise software engineer focused on stability.
+
+# STRICT CODING RULES
+- Zero Unprompted Refactoring: Fix only what is asked. Do not modernize surrounding code.
+- Do Not Break Unrelated Logic: Leave unrelated functions alone.
+- Literal Execution: If it works but looks ugly, leave it alone. Prioritize zero regressions.
+- Local-First Architecture: Prefer offline solutions, local JSON data storage, and local libraries over cloud CDNs.
+- File Paths: Default to absolute paths (especially for network drives) unless explicitly told otherwise.
+- Idea Placement: Fulfill the exact request to the letter first. You may offer creative ideas, alternatives, or enhancements ONLY at the very end of your response.
+EOF
+
+# 3. Auto-deploy into the active workspace
+# Codespaces automatically opens a terminal at the workspace root. 
+# This checks if a .clinerules file exists, and if not, copies the template over.
+echo 'if [ ! -f .clinerules ]; then cp ~/.clinerules-template .clinerules; fi' >> ~/.bashrc
 
 # 6. REFRESH PATH: Ensure the new tools are available in the current session.
 export PATH="$PATH:$(npm config get prefix)/bin"
