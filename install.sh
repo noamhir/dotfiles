@@ -37,8 +37,9 @@ ln -sf "$DOTFILES_DIR/gemini.md" "$HOME/gemini.md"
 
 #!/bin/bash
 
-# 1. Install the Cline Extension
-code --install-extension saoudrizwan.claude-dev
+
+# roo code isntallation
+code --install-extension rooveterinaryinc.roo-cline
 
 # 2. Generate the strict rules template
 cat << 'EOF' > ~/.clinerules-template
