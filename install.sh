@@ -17,11 +17,11 @@ ln -sfn "$DOTFILES_DIR" "$HOME/dotfiles"
 echo "📦 Installing Gemini CLI..."
 yes | npm install -g @google/gemini-cli
 
-echo "📦 Installing Claude Code..."
+# echo "📦 Installing Claude Code..."
 # We use 'yes' here because the Claude installer often asks for permission.
 # yes | curl -fsSL https://claude.ai/install.sh | bash
 
-echo "📦 Installing Copilot CLI..."
+$ echo "📦 Installing Copilot CLI..."
 # if command -v npm &> /dev/null; then
 #     yes | npm install -g @github/copilot
 # else
@@ -37,46 +37,54 @@ ln -sf "$DOTFILES_DIR/gemini.md" "$HOME/gemini.md"
 
 #!/bin/bash
 
+# --- OpenCode & AI Agent Setup (April 2026) ---
 
-# roo code isntallation
-code --install-extension rooveterinaryinc.roo-cline
+# 1. Install OpenCode CLI if not already present
+if ! command -v opencode &> /dev/null; then
+    echo "Installing OpenCode AI Agent..."
+    curl -fsSL https://opencode.ai/install | bash
+else
+    echo "OpenCode is already installed. Skipping..."
+fi
 
-# 2. Generate the strict rules template
-cat << 'EOF' > ~/.clinerules-template
-# CORE PERSONA
-Act as a senior, precise software engineer focused on stability.
+# 2. Create the AGENTS.md file for project-specific context
+echo "Creating AGENTS.md for legal automation workflow..."
+cat << 'EOF' > AGENTS.md
+# Project: Legal Automation Tools
+**Role:** Senior Software Engineer / Prosecutorial Workflow Consultant
+**Primary Objective:** Build high-stability, local-only automation tools (VBA, HTML, JS).
 
-# STRICT CODING RULES
-- Zero Unprompted Refactoring: Fix only what is asked. Do not modernize surrounding code.
-- Do Not Break Unrelated Logic: Leave unrelated functions alone.
-- Literal Execution: If it works but looks ugly, leave it alone. Prioritize zero regressions.
-- Local-First Architecture: Prefer offline solutions, local JSON data storage, and local libraries over cloud CDNs.
-- File Paths: Default to absolute paths (especially for network drives) unless explicitly told otherwise.
-- Idea Placement: Fulfill the exact request to the letter first. You may offer creative ideas, alternatives, or enhancements ONLY at the very end of your response.
+## 🛠 Tech Stack
+- **VBA:** Excel Macros and Word Document Automation.
+- **Web:** Local HTML/JavaScript/CSS (Offline-first).
+- **Environment:** Windows / Microsoft Office / Local Browser.
+
+## ⚖️ Core Development Rules (Strict)
+- **Zero Unprompted Refactoring:** Never refactor working code unless explicitly asked. Fix ONLY the requested logic.
+- **Zero Regressions:** Maintain existing functionality at all costs. 
+- **Literal Execution:** Prioritize functionality and stability over aesthetics. If it works, leave it alone.
+- **Local-Only:** Never suggest cloud-dependencies or CDNs. Scripts must run offline.
+
+## 💻 Language Standards
+### VBA (Excel/Word)
+- Always include 'Option Explicit' at the top of every module.
+- Use explicit error handling ('On Error GoTo ErrorHandler').
+- **VBA Bug Prevention:** Use index-based loops ('For i = 1 to Count') instead of 'For Each' for Chart objects to avoid type mismatch errors.
+
+### HTML / JavaScript
+- Use Vanilla JavaScript (ES6+). No external frameworks unless requested.
+- Prioritize simple, readable DOM manipulation for local tools.
+
+## 📋 Common Commands
+- **Switch Mode:** Press [Tab] to cycle between Plan (analysis) and Build (editing).
+- **Add Focus:** Type '@' to search/add specific files to the AI's context.
+- **Clean State:** Use '/clear' to reset chat context if tokens get bloated.
+
+## 🎯 Project Context
+You are assisting a prosecutor at the State Attorney's Office. Data privacy and precision are paramount. These tools are for professional legal use.
 EOF
 
-# 3. Generate the ignore template to protect API quotas
-cat << 'EOF' > ~/.clineignore-template
-# Protect API Tokens by ignoring compiled output and heavy data
-node_modules/
-.git/
-dist/
-build/
-
-# STRICTLY ignore local JSON databases
-*.json.db
-/data/*.json
-
-# Ignore binary files and assets
-*.jpg
-*.png
-*.pdf
-EOF
-
-# 4. Auto-deploy into the active workspace
-# This checks if the files exist in the project root, and if not, copies the templates over.
-echo 'if [ ! -f .clinerules ]; then cp ~/.clinerules-template .clinerules; fi' >> ~/.bashrc
-echo 'if [ ! -f .clineignore ]; then cp ~/.clineignore-template .clineignore; fi' >> ~/.bashrc
+echo "Setup complete. Run 'opencode' to start."
 
 # 6. REFRESH PATH: Ensure the new tools are available in the current session.
 export PATH="$PATH:$(npm config get prefix)/bin"
