@@ -80,6 +80,15 @@ cat << 'EOF' > AGENTS.md
 - **Add Focus:** Type '@' to search/add specific files to the AI's context.
 - **Clean State:** Use '/clear' to reset chat context if tokens get bloated.
 
+# Check if tmux is installed; if not, install it.
+if ! command -v tmux &> /dev/null; then
+    echo "tmux not found. Installing..."
+    sudo apt-get update
+    sudo apt-get install -y tmux
+else
+    echo "tmux is already installed."
+fi
+
 ## 🎯 Project Context
 You are assisting a prosecutor at the State Attorney's Office. Data privacy and precision are paramount. These tools are for professional legal use.
 EOF
