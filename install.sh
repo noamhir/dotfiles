@@ -1,55 +1,54 @@
 #!/bin/bash
 
-# 1. STOP ON ERROR
+# STOP ON ERROR
 set -e
 
-echo "🚀 Starting dotfiles installation..."
+echo "🚀 Starting dotfiles personalization..."
 
-# 2. IDENTIFY DIRECTORY
+# 1. IDENTIFY DIRECTORY
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 3. ENSURE SYMLINK
+# 2. ENSURE SYMLINK TO DOTFILES
+# Using -n to prevent nested folders if run twice
 ln -sfn "$DOTFILES_DIR" "$HOME/dotfiles"
 
-# 4. INSTALL TOOLS (NON-INTERACTIVE)
-echo "📦 Installing Gemini CLI..."
-# Using --quiet to reduce log bloat
-npm install -g @google/gemini-cli --quiet
+# 3. SAFE CONFIG LINKING (The "No-Crash" Method)
+echo "🔗 Linking configuration files..."
 
-# Fix syntax error: removed the leading '$'
-echo "📦 Installing Copilot CLI..."
-# npm install -g @github/copilot --quiet
-
-# 5. OPENCODE & AI AGENT SETUP
-if ! command -v opencode &> /dev/null; then
-    echo "Installing OpenCode AI Agent..."
-    curl -fsSL https://opencode.ai/install | bash
-fi
-
-# Create AGENTS.md
-echo "Creating AGENTS.md..."
-cat << 'EOF' > "$HOME/AGENTS.md"
-# Project: Legal Automation Tools
-# [Rest of your AGENTS.md content here...]
-EOF
-
-# 6. SYSTEM TOOLS (Tmux)
-if ! command -v tmux &> /dev/null; then
-    echo "tmux not found. Installing..."
-    sudo apt-get update -qq && sudo apt-get install -y tmux
-fi
-
-# 7. SAFE LINKING (APPEND INSTEAD OF REPLACE)
-echo "🔗 Configuring .bashrc..."
-# Check if we've already added the source line to avoid duplicates
+# Instead of overwriting .bashrc, we source your custom one from the existing one.
+# This preserves the Codespaces default environment.
 if ! grep -q "source ~/dotfiles/.bashrc" "$HOME/.bashrc"; then
-    echo -e "\n# Load custom dotfiles\nsource ~/dotfiles/.bashrc" >> "$HOME/.bashrc"
+    echo -e "\n# Added by dotfiles install.sh\nsource ~/dotfiles/.bashrc" >> "$HOME/.bashrc"
+    echo "✅ Added source line to ~/.bashrc"
 fi
 
-# Link specific configs that aren't the shell profile
+# Link other specific config files
 ln -sf "$DOTFILES_DIR/gemini.md" "$HOME/gemini.md"
 
-# 8. REFRESH PATH
+# 4. CREATE PROJECT CONTEXT (AGENTS.md)
+# We only do this if it doesn't exist, to avoid overwriting project-specific tweaks.
+if [ ! -f "AGENTS.md" ]; then
+    echo "📝 Creating AGENTS.md for legal automation..."
+    cat << 'EOF' > AGENTS.md
+# Project: Legal Automation Tools
+**Role:** Senior Software Engineer / Prosecutorial Workflow Consultant
+**Primary Objective:** Build high-stability, local-only automation tools (VBA, HTML, JS).
+
+## 🛠 Tech Stack
+- **VBA:** Excel Macros and Word Document Automation (David 12 font, Option Explicit).
+- **Web:** Local HTML/JavaScript/CSS (Offline-first, Vanilla JS).
+- **VBA Bug Prevention:** Use index-based loops for Chart objects.
+
+## ⚖️ Core Rules
+- **Zero Unprompted Refactoring.**
+- **Zero Regressions.**
+- **Local-Only:** No CDNs or Cloud dependencies.
+EOF
+    echo "✅ AGENTS.md created."
+fi
+
+# 5. REFRESH PATH
+# Ensure npm-installed globals are immediately visible
 export PATH="$PATH:$(npm config get prefix)/bin"
 
-echo "✅ All set! Run 'source ~/.bashrc' if needed."
+echo "✅ Personalization complete. Run 'opencode' to start."
