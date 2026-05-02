@@ -36,4 +36,23 @@ ln -sf "$DOTFILES_DIR/agent.md" "$HOME/agent.md"
 # Ensure npm-installed globals and local bins are immediately available
 export PATH="$PATH:$(npm config get prefix)/bin"
 
+# --- OpenCode Configuration Provisioning ---
+mkdir -p ~/.config/opencode
+
+cat <<EOF > ~/.config/opencode/opencode.json
+{
+  "\$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/deepseek-v4-pro",
+  "plugin": [
+    "@morphllm/opencode-morph-plugin",
+    "@tarquinen/opencode-dcp",
+    "@pranjalmandavkar/opencode-notifier"
+  ],
+  "permission": {
+    "bash": "allow"
+  }
+}
+EOF
+echo "✅ opencode.json has been provisioned with DeepSeek V4 Pro and plugins."
+
 echo "✅ Personalization complete. Your environment is ready."
