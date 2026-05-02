@@ -42,7 +42,6 @@ mkdir -p ~/.config/opencode
 cat <<EOF > ~/.config/opencode/opencode.json
 {
   "\$schema": "https://opencode.ai/config.json",
-  "model": "opencode-go/deepseek-v4-pro",
   "plugin": [
     "@morphllm/opencode-morph-plugin",
     "@tarquinen/opencode-dcp",
@@ -53,6 +52,5 @@ cat <<EOF > ~/.config/opencode/opencode.json
   }
 }
 EOF
-echo "✅ opencode.json has been provisioned with DeepSeek V4 Pro and plugins."
-
+echo "✅ opencode.json provisioned. Model selection left to UI defaults."
 echo "✅ Personalization complete. Your environment is ready."
