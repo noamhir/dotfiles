@@ -25,13 +25,6 @@ fi
 # Link specific global configs
 ln -sf "$DOTFILES_DIR/gemini.md" "$HOME/gemini.md"
 
-# --- OpenCode Configuration ---
-echo "⚙️ Configuring OpenCode..."
-mkdir -p "$HOME/.config/opencode"
-ln -sf "$DOTFILES_DIR/opencode.json" "$HOME/.config/opencode/opencode.json"
-ln -sf "$DOTFILES_DIR/agent.md" "$HOME/agent.md"
-# ------------------------------
-
 # 4. REFRESH PATH
 # Ensure npm-installed globals and local bins are immediately available
 export PATH="$PATH:$(npm config get prefix)/bin"
