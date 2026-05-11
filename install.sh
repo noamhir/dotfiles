@@ -59,4 +59,7 @@ if command -v npm &> /dev/null; then
 else
     echo "Warning: npm not found. Could not install Grill Me skill."
 fi
+# --- OpenCode osgrep skill Setup ---
+npx skills@latest add Ryandonofrio3/osgrep -g
+echo "osgrep skill ready!"
 echo "✅ Personalization complete. Your environment is ready."
