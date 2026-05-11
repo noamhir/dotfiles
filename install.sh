@@ -46,4 +46,17 @@ cat <<EOF > ~/.config/opencode/opencode.json
 }
 EOF
 echo "✅ opencode.json provisioned. Model selection left to UI defaults."
+# --- OpenCode Grill Me Skill Setup ---
+if command -v npm &> /dev/null; then
+    echo "Installing OpenCode Grill Me skill..."
+    # Installs the skill globally for the user
+    npx skills@latest add mattpocock/skills --skill grill-me -g
+    
+    # Verify local skill directory exists for template consistency
+    mkdir -p .opencode/skills/grill-me
+    
+    echo "Grill Me skill ready. Use '/grill-me' in Plan Mode to start."
+else
+    echo "Warning: npm not found. Could not install Grill Me skill."
+fi
 echo "✅ Personalization complete. Your environment is ready."
