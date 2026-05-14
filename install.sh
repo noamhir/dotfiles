@@ -44,14 +44,14 @@ fi
 # We check if the directory exists before running npx to save time
 if [ ! -d "$HOME/.config/opencode/skills/grill-me" ]; then
     echo "Installing Grill Me skill..."
-    npx skills@latest add mattpocock/skills --skill grill-me -g -y
+    npx --yes skills@latest add mattpocock/skills --skill grill-me -g -y
 else
     echo "✅ Grill Me skill already present."
 fi
 
 if [ ! -d "$HOME/.config/opencode/skills/osgrep" ]; then
     echo "Installing osgrep skill..."
-    npx skills@latest add Ryandonofrio3/osgrep -g -y
+    npx --yes skills@latest add Ryandonofrio3/osgrep -g -y
 else
     echo "✅ osgrep skill already present."
 fi
