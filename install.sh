@@ -13,4 +13,4 @@ sudo apt-get update
 sudo apt-get install -y tmux
 
 # Catching the failure to prevent the whole codespace build from crashing
-curl -fsSL https://opencode.ai/install | bash || echo "⚠️ opencode.ai installation failed, but continuing build."
+npm install -g opencode-ai | bash || echo "⚠️ opencode.ai installation failed, but continuing build."
